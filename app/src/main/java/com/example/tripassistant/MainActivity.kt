@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.tripassistant.R
 import com.example.tripassistant.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

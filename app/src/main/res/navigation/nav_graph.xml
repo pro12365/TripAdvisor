@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/exploreFragment"
-        android:name="com.example.tripassistant.ExploreFragment"
+        android:name="com.example.tripassistant.ui.explore.ExploreFragment"
         android:label="fragment_explore"
         tools:layout="@layout/fragment_explore" />
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.tripassistant.SearchFragment"
+        android:name="com.example.tripassistant.ui.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" >
         <argument
@@ -20,6 +20,9 @@
             app:argType="string"
             app:nullable="true"
             android:defaultValue="Find in..." />
+        <action
+            android:id="@+id/action_searchFragment_to_hotel2"
+            app:destination="@id/hotel2" />
     </fragment>
     <action
         android:id="@+id/action_global_searchFragment"
@@ -28,4 +31,13 @@
         app:exitAnim="@anim/slide_down"
         app:popEnterAnim="@anim/slide_up"
         app:popExitAnim="@anim/slide_down" />
+    <fragment
+        android:id="@+id/hotel2"
+        android:name="com.example.tripassistant.ui.hotels.Hotel"
+        android:label="fragment_hotel"
+        tools:layout="@layout/fragment_hotel" >
+        <argument
+            android:name="location"
+            app:argType="com.example.tripassistant.models.Location" />
+    </fragment>
 </navigation>
