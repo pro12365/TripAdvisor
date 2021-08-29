@@ -33,11 +33,11 @@
         app:popExitAnim="@anim/slide_down" />
     <fragment
         android:id="@+id/hotel2"
-        android:name="com.example.tripassistant.ui.hotels.Hotel"
+        android:name="com.example.tripassistant.ui.hotels.HotelFragment"
         android:label="fragment_hotel"
         tools:layout="@layout/fragment_hotel" >
         <argument
             android:name="location"
-            app:argType="com.example.tripassistant.models.Location" />
+            app:argType="com.example.tripassistant.data.models.Places" />
     </fragment>
 </navigation>

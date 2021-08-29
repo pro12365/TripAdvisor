@@ -7,7 +7,7 @@ object RetrofitInstance {
     fun get(): Retrofit {
 
         return Retrofit.Builder()
-            .baseUrl("https://www.triposo.com/api/20210615/")
+            .baseUrl(LocationApi.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

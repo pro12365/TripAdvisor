@@ -6,19 +6,18 @@ import androidx.navigation.NavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tripassistant.data.models.City
 import com.example.tripassistant.databinding.HeadingBinding
 import com.example.tripassistant.databinding.SuggestionLayoutBinding
-import com.example.tripassistant.data.Heading
-import com.example.tripassistant.data.Location
-import com.example.tripassistant.data.RecyclerViewItems
-import com.example.tripassistant.utils.ViewTypes
+import com.example.tripassistant.ui.models.Heading
+import com.example.tripassistant.ui.models.RecyclerViewItems
 
 class SuggestionsAdapter(val navController: NavController) :
     ListAdapter<RecyclerViewItems, RecyclerView.ViewHolder>(DiffCalculator()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if (viewType == ViewTypes.LOCATION)
+        if (viewType == RecyclerViewItems.VIEWTYPE_PLACE)
             return LocationViewHolder(
                 SuggestionLayoutBinding.inflate(
                     LayoutInflater.from(parent.context),
@@ -41,7 +40,7 @@ class SuggestionsAdapter(val navController: NavController) :
         if (holder is HeadingViewHolder)
             holder.bind(currentItem as Heading)
         else if (holder is LocationViewHolder) {
-            holder.bind(currentItem as Location)
+            holder.bind(currentItem as City)
             holder.binding.root.setOnClickListener {
                 val action =
                     SearchFragmentDirections.actionSearchFragmentToHotel2(currentItem)
@@ -62,7 +61,7 @@ class SuggestionsAdapter(val navController: NavController) :
 //            }
         }
 
-        fun bind(location: Location) {
+        fun bind(location: City) {
             binding.name.text = location.name
 
             if (location.part_of.isNotEmpty()) binding.partOf.text =
@@ -83,14 +82,14 @@ class SuggestionsAdapter(val navController: NavController) :
             oldItem: RecyclerViewItems,
             newItem: RecyclerViewItems
         ): Boolean {
-            return oldItem is Location && newItem is Location
+            return oldItem is City && newItem is City
         }
 
         override fun areContentsTheSame(
             oldItem: RecyclerViewItems,
             newItem: RecyclerViewItems
         ): Boolean {
-            if (oldItem is Location && newItem is Location) {
+            if (oldItem is City && newItem is City) {
                 return oldItem.name.equals(
                     newItem.name,
                     true

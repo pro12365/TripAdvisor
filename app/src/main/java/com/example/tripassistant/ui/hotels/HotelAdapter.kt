@@ -6,11 +6,12 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.tripassistant.R
+import com.example.tripassistant.data.models.City
+import com.example.tripassistant.data.models.Hotels
 import com.example.tripassistant.databinding.HotelBinding
-import com.example.tripassistant.data.Location
 
 
-class HotelAdapter(private val hotels: List<Location>) :
+class HotelAdapter(private val hotels: List<Hotels>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ViewHolder(HotelBinding.inflate(LayoutInflater.from(parent.context)))
@@ -25,11 +26,11 @@ class HotelAdapter(private val hotels: List<Location>) :
     }
 
     class ViewHolder(private val binding: HotelBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(location: Location) {
+        fun bind(location: Hotels) {
             binding.name.text = location.name
 
             if (location.images.isNotEmpty())
-                Glide.with(binding.image).load(location.images[0].getUrl())
+                Glide.with(binding.image).load(location.images[0].sizes.medium.url)
                     .into(binding.image)
             else {
                 binding.image.setImageResource(R.drawable.error_placeholder)

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tripassistant.databinding.ExploreRowBinding
-import com.example.tripassistant.data.Section
+import com.example.tripassistant.ui.models.Section
 
 class ExploreAdapter(private val section: List<Section>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {

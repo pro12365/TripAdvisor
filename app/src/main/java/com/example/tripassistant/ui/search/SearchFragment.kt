@@ -15,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.tripassistant.R
+import com.example.tripassistant.api.LocationApiResponse
 import com.example.tripassistant.databinding.FragmentSearchBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -24,7 +25,6 @@ import kotlinx.coroutines.launch
 
 class SearchFragment : Fragment() {
 
-    private val TAG = "SearchFragment"
     private lateinit var binding: FragmentSearchBinding
     private val args: SearchFragmentArgs by navArgs()
     private val viewModel: SearchFragmentViewModel by viewModels()
@@ -73,8 +73,8 @@ class SearchFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        viewModel.isLoading.observe(viewLifecycleOwner, {
-            binding.swipeRefresh.isRefreshing = it
+        viewModel.networkRequestStatus.observe(viewLifecycleOwner, {status->
+            binding.swipeRefresh.isRefreshing = status==LocationApiResponse.STATUS_LOADING
         })
 
         viewModel.locationList.observe(viewLifecycleOwner, {
