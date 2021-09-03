@@ -29,12 +29,12 @@
             <EditText
                 android:id="@+id/searchPallet"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="15dp"
-                android:layout_marginEnd="25dp"
+                android:layout_marginEnd="15dp"
                 android:background="@drawable/round_corner"
                 android:drawableStart="@drawable/ic_search"
-                android:drawablePadding="5dp"
+                android:drawablePadding="6dp"
                 android:hint="Search..."
                 android:imeOptions="actionSearch"
                 android:inputType="text"
@@ -57,11 +57,11 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
-                tools:listitem="@layout/suggestion_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/suggestion_layout" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </RelativeLayout>
 </FrameLayout>

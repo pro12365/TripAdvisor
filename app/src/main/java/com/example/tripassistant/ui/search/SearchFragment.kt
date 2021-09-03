@@ -2,10 +2,9 @@ package com.example.tripassistant.ui.search
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.core.content.ContextCompat
@@ -15,33 +14,32 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.tripassistant.R
+import com.example.tripassistant.RecyclerViewItemAdapter
+import com.example.tripassistant.api.LocationApi
 import com.example.tripassistant.api.LocationApiResponse
+import com.example.tripassistant.data.models.Places
 import com.example.tripassistant.databinding.FragmentSearchBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
-class SearchFragment : Fragment() {
+@AndroidEntryPoint
+class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private lateinit var binding: FragmentSearchBinding
     private val args: SearchFragmentArgs by navArgs()
     private val viewModel: SearchFragmentViewModel by viewModels()
-    private lateinit var adapter: SuggestionsAdapter
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentSearchBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    private lateinit var adapter: RecyclerViewItemAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = SuggestionsAdapter(findNavController())
+        binding = FragmentSearchBinding.bind(view)
+        adapter = RecyclerViewItemAdapter()
+
         adapter.submitList(viewModel.getDefaultData())
         binding.recyclerView.adapter = adapter
         binding.searchPallet.hint = args.searchHint
@@ -73,8 +71,9 @@ class SearchFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        viewModel.networkRequestStatus.observe(viewLifecycleOwner, {status->
-            binding.swipeRefresh.isRefreshing = status==LocationApiResponse.STATUS_LOADING
+        viewModel.networkRequestStatus.observe(viewLifecycleOwner, { status ->
+            binding.swipeRefresh.isRefreshing = status == LocationApi.STATUS_LOADING
+            Log.e("NRS"," $status")
         })
 
         viewModel.locationList.observe(viewLifecycleOwner, {

@@ -5,9 +5,10 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.tripassistant.R
-import com.example.tripassistant.data.models.City
-import com.example.tripassistant.ui.models.Section
+import com.example.tripassistant.RecyclerViewItemAdapter
+import com.example.tripassistant.data.models.Places
 import com.example.tripassistant.databinding.FragmentExploreBinding
+import com.example.tripassistant.ui.models.Heading
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -21,22 +22,29 @@ class ExploreFragment : Fragment(R.layout.fragment_explore) {
 
         binding = FragmentExploreBinding.bind(view)
 
-        binding.restaurantChip.setOnClickListener {
-            val action =
-                ExploreFragmentDirections.actionGlobalSearchFragment("Find Restaurants in...")
-            findNavController().navigate(action)
+        binding.apply {
+
+            restaurantChip.setOnClickListener {
+                val action =
+                    ExploreFragmentDirections.actionGlobalSearchFragment("Find Restaurants in...")
+                findNavController().navigate(action)
+            }
+
+            hotelChip.setOnClickListener {
+                val action =
+                    ExploreFragmentDirections.actionGlobalSearchFragment("Find Hotels in...")
+                findNavController().navigate(action)
+            }
+
+            val adapter = RecyclerViewItemAdapter()
+            recyclerView.adapter = adapter
+            adapter.submitList(listOf(Heading("Destinations travellers love")))
         }
 
-        binding.hotelChip.setOnClickListener {
-            val action = ExploreFragmentDirections.actionGlobalSearchFragment("Find Hotels in...")
-            findNavController().navigate(action)
-        }
 
-        binding.recyclerView.adapter =
-            ExploreAdapter(listOf(Section("Destinations Travellers love", getTopCities())))
     }
 
-    private fun getTopCities(): List<City> {
+    private fun getTopCities(): List<Places> {
         return listOf(
         )
     }
