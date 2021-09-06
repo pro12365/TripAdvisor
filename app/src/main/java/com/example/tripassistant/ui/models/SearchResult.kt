@@ -16,7 +16,7 @@ data class SearchResult(val places: Places) : RecyclerViewItems() {
     override fun areContentsTheSame(recyclerViewItems: RecyclerViewItems): Boolean =
         if (recyclerViewItems is SearchResult) places == recyclerViewItems.places else false
 
-    class ViewHolder private constructor(private val binding: SuggestionLayoutBinding) :
+    class ViewHolder private constructor( val binding: SuggestionLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         constructor(parent: ViewGroup) : this(

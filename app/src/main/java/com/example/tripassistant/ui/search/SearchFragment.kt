@@ -15,16 +15,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.tripassistant.R
 import com.example.tripassistant.RecyclerViewItemAdapter
-import com.example.tripassistant.api.LocationApi
 import com.example.tripassistant.api.LocationApiResponse
-import com.example.tripassistant.data.models.Places
 import com.example.tripassistant.databinding.FragmentSearchBinding
+import com.example.tripassistant.ui.models.SearchResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-
 
 @AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.fragment_search) {
@@ -39,6 +37,16 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
         binding = FragmentSearchBinding.bind(view)
         adapter = RecyclerViewItemAdapter()
+
+        adapter.addViewHolderEventListener { viewHolder ->
+            if (viewHolder is SearchResult.ViewHolder) {
+                viewHolder.itemView.setOnClickListener {
+                    val action =
+                        SearchFragmentDirections.actionSearchFragmentToHotel2((adapter.currentList[viewHolder.adapterPosition] as SearchResult).places)
+                    findNavController().navigate(action)
+                }
+            }
+        }
 
         adapter.submitList(viewModel.getDefaultData())
         binding.recyclerView.adapter = adapter
@@ -72,8 +80,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
 
         viewModel.networkRequestStatus.observe(viewLifecycleOwner, { status ->
-            binding.swipeRefresh.isRefreshing = status == LocationApi.STATUS_LOADING
-            Log.e("NRS"," $status")
+            binding.swipeRefresh.isRefreshing = status == LocationApiResponse.STATUS_LOADING
+            Log.e("NRS", " $status")
         })
 
         viewModel.locationList.observe(viewLifecycleOwner, {

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tripassistant.api.LocationApi
+import com.example.tripassistant.api.LocationApiResponse
 import com.example.tripassistant.data.LocationRepository
 import com.example.tripassistant.ui.models.Heading
 import com.example.tripassistant.ui.models.RecyclerViewItems
@@ -20,18 +21,18 @@ class SearchFragmentViewModel @Inject constructor(
 ) : ViewModel() {
 
     val locationList = MutableLiveData<List<SearchResult>>()
-    val networkRequestStatus = MutableLiveData(LocationApi.STATUS_SUCCESS)
+    val networkRequestStatus = MutableLiveData(LocationApiResponse.STATUS_SUCCESS)
 
     fun getSuggestion(query: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            networkRequestStatus.postValue(LocationApi.STATUS_LOADING)
+            networkRequestStatus.postValue(LocationApiResponse.STATUS_LOADING)
             val response = repository.getSuggestion(query)
             if (response.isSuccessful) {
-                networkRequestStatus.postValue(LocationApi.STATUS_SUCCESS)
+                networkRequestStatus.postValue(LocationApiResponse.STATUS_SUCCESS)
                 locationList.postValue(response.body()?.results?.map {place-> SearchResult(place) })
             } else {
-                response.errorBody()?.let { Log.e("NRSV", it.string()) }
-                networkRequestStatus.postValue(LocationApi.STATUS_ERROR)
+                response.errorBody()?.let { Log.e("HttpError", it.string()) }
+                networkRequestStatus.postValue(LocationApiResponse.STATUS_ERROR)
             }
         }
     }

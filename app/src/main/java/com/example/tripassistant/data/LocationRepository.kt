@@ -12,4 +12,7 @@ class LocationRepository @Inject constructor(
     suspend fun getSuggestion(query: String): Response<LocationApiResponse> {
         return locationApi.getSuggestion("trigram:$query")
     }
+    suspend fun getHotelList(locationId: String): Response<LocationApiResponse> {
+        return locationApi.getHotelList(locationId)
+    }
 }

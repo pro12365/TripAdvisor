@@ -10,10 +10,6 @@ interface LocationApi {
         const val BASE_URL = "https://www.triposo.com/api/20210615/"
         private const val ACCOUNT_ID = "GFHNZBC7"
         private const val ACCESS_TOKEN = "7x5ql1plvba65a2uvbi33qcpd0xk9x60"
-
-        const val STATUS_LOADING = 0
-        const val STATUS_SUCCESS = 1
-        const val STATUS_ERROR = 2
     }
 
     @GET(

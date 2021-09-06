@@ -9,8 +9,16 @@ import com.example.tripassistant.ui.models.RecyclerViewItems
 class RecyclerViewItemAdapter() :
     ListAdapter<RecyclerViewItems, RecyclerView.ViewHolder>(ITEM_COMPARATOR) {
 
+    private var eventListener: ((viewHolder: RecyclerView.ViewHolder) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return RecyclerViewItems.getViewHolder(parent, viewType)
+        val holder = RecyclerViewItems.getViewHolder(parent, viewType)
+        eventListener?.invoke(holder)
+        return holder
+    }
+
+    fun addViewHolderEventListener(eventListener: (viewHolder: RecyclerView.ViewHolder) -> Unit) {
+        this.eventListener = eventListener
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -26,7 +34,7 @@ class RecyclerViewItemAdapter() :
                 oldItem: RecyclerViewItems,
                 newItem: RecyclerViewItems
             ): Boolean =
-                oldItem.uid.equals(newItem.uid)
+                oldItem.uid == newItem.uid
 
             override fun areContentsTheSame(
                 oldItem: RecyclerViewItems,
